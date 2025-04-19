@@ -1,0 +1,5 @@
+theme = Dracula
+font-size = 20
+background = 000000
+macos-option-as-alt = left
+
