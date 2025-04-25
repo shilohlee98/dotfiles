@@ -17,11 +17,16 @@ alias gl1='git log --oneline'
 alias gs='git status'
 alias ga='git add'
 alias gc='git commit'
+alias gcm='git commit -m'
 alias gb='git branch'
 alias gr='git restore'
 alias gd='git diff'
+alias gp='git push'
+alias gpl='git pull'
 
 alias y='yazi'
+
+alias cw='cd ~/workspace'
 
 export NVM_DIR="$HOME/.nvm"
 export EDITOR='nvim'
