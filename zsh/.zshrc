@@ -6,7 +6,7 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-alias n='nvim'
+alias v='nvim'
 
 alias t='tmux'
 alias ta='tmux a'
