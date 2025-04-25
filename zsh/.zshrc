@@ -21,6 +21,8 @@ alias gb='git branch'
 alias gr='git restore'
 alias gd='git diff'
 
+alias y='yazi'
+
 export NVM_DIR="$HOME/.nvm"
 export EDITOR='nvim'
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
