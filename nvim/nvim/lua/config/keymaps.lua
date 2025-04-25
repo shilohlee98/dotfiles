@@ -3,3 +3,6 @@
 -- Add any additional keymaps here
 vim.keymap.set({ "n", "v" }, "y", '"+y')
 vim.keymap.set("n", "yy", '"+yy')
+
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
