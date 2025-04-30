@@ -6,7 +6,7 @@ return {
                 settings = {
                     python = {
                         analysis = {
-                            typeCheckingMode = "off", -- or "off"
+                            typeCheckingMode = "off",
                         },
                     },
                 },
