@@ -1,6 +1,7 @@
 return {
     {
         "nvim-lualine/lualine.nvim",
+        event = "VeryLazy",
         dependencies = { "nvim-lualine/lualine.nvim" },
         config = function()
             require("lualine").setup({

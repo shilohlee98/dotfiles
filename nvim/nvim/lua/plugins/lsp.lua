@@ -31,15 +31,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 return {
     {
         "neovim/nvim-lspconfig",
+        event = "VeryLazy",
     },
     {
         "williamboman/mason.nvim",
+        event = "VeryLazy",
         config = function()
             require("mason").setup()
         end,
     },
     {
         "williamboman/mason-lspconfig.nvim",
+        event = "VeryLazy",
         dependencies = { "mason.nvim" },
         config = function()
             require("mason-lspconfig").setup()
