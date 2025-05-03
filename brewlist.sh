@@ -1,0 +1,13 @@
+brew install yazi
+brew install node
+brew install yarn
+brew install stow
+brew install cmake
+brew install fzf
+brew install ripgrep
+brew install node
+brew install neovim
+brew install tmux
+brew install zoxide
+brew install uv
+brew install git
