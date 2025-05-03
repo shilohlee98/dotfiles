@@ -50,12 +50,37 @@ return {
                 "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>",
                 {}
             )
-            vim.keymap.set("n", "<leader><space>", ":Telescope find_files<CR>", {})
-            vim.keymap.set("n", "<leader>/", builtin.live_grep, {})
-            vim.keymap.set("n", "<leader>fd", builtin.diagnostics, {})
-            vim.keymap.set("n", "<leader>ds", builtin.lsp_document_symbols, {})
-            vim.keymap.set("n", "<leader>ws", builtin.lsp_workspace_symbols, {})
-            vim.keymap.set("n", "<leader>fz", ":Telescope zoxide list<CR>", {})
+            vim.keymap.set(
+                "n",
+                "<leader><space>",
+                ":Telescope find_files<CR>",
+                { desc = "Telescope Find Files" }
+            )
+            vim.keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Telescope Live Grep" })
+            vim.keymap.set(
+                "n",
+                "<leader>fd",
+                builtin.diagnostics,
+                { desc = "Telescope Diagnostics" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>ds",
+                builtin.lsp_document_symbols,
+                { desc = "Telescope LSP Document Symbols" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>ws",
+                builtin.lsp_workspace_symbols,
+                { desc = "Telescope LSP Workspace Symbols" }
+            )
+            -- vim.keymap.set(
+            --     "n",
+            --     "<leader>fz",
+            --     ":Telescope zoxide list<CR>",
+            --     { desc = "Telescope Zoxide" }
+            -- )
             vim.keymap.set("n", "<leader>fv", builtin.help_tags, {})
         end,
     },
