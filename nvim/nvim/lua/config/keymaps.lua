@@ -64,11 +64,11 @@ map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 -- quit
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 --
-map({ "n", "v" }, "<leader>y", '"+y', {})
-map("n", "<leader>yy", '"+yy', {})
+map({ "n", "v" }, "<leader>y", '"+y', { desc = "System Clipboard Yank" })
+map("n", "<leader>yy", '"+yy', { desc = "System Clipboard Yank Line" })
 --
-map({ "n", "v" }, "<leader>p", '"+p', { desc = "System Clipboard" })
-map("n", "<leader>P", '"+P', {})
+map({ "n", "v" }, "<leader>p", '"+p', { desc = "System Clipboard Paste" })
+map("n", "<leader>P", '"+P', { desc = "System Clipboard Paste" })
 --
 map("n", "<C-u>", "<C-u>zz", {})
 map("n", "<C-d>", "<C-d>zz", {})
