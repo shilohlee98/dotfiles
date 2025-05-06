@@ -1,7 +1,11 @@
 return {
     "folke/snacks.nvim",
     opts = {
-        picker = {},
+        picker = {
+            sources = {
+                files = { hidden = true },
+            },
+        },
     },
     keys = {
         -- Top Pickers & Explorer
@@ -10,7 +14,7 @@ return {
             function()
                 Snacks.picker.smart()
             end,
-            desc = "Smart Find Files",
+            desc = "Smart Find Files (with hidden)",
         },
         {
             "<leader>,",

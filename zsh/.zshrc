@@ -45,3 +45,5 @@ alias psv="source .venv/bin/activate"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"

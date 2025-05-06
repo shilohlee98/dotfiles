@@ -53,7 +53,26 @@ local diagnostic_goto = function(next, severity)
         go({ severity = severity })
     end
 end
-map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+
+map("n", "<leader>dy", function()
+    local line_nr = vim.fn.line(".") - 1
+    local diagnostics = vim.diagnostic.get(0, { lnum = line_nr })
+
+    if vim.tbl_isempty(diagnostics) then
+        print("ℹ No diagnostics on this line.")
+        return
+    end
+
+    local messages = vim.tbl_map(function(d)
+        return d.message
+    end, diagnostics)
+
+    local joined = table.concat(messages, " | ")
+    vim.fn.setreg("+", joined)
+    print("✔ Yanked " .. #messages .. " diagnostics to clipboard.")
+end, { desc = "Yank diagnostics on current line to clipboard" })
+
+map("n", "<leader>ds", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
 map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
 map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
