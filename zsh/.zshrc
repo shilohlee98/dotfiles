@@ -5,6 +5,7 @@ ZSH_THEME="robbyrussell"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 alias v='nvim'
 
