@@ -13,7 +13,7 @@ exec --no-startup-id xrandr --output HDMI-2 --mode 1920x1080 --rate 60 --pos 192
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod4
+set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -55,6 +55,7 @@ tiling_drag modifier titlebar
 # start a terminal
 bindsym $mod+Return exec ghostty 
 # start a browser
+for_window [class="google-chrome-stable"] move to workspace 3
 bindsym $mod+b exec google-chrome-stable
 
 # kill focused window
