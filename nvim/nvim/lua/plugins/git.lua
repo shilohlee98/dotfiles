@@ -43,7 +43,7 @@ return {
 
                 map("n", "<leader>hS", gitsigns.stage_buffer, { desc = "Stage Buffer" })
                 map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "Reset Buffer" })
-                map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Hunk Preview" })
+                map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Previe Hunk" })
                 map(
                     "n",
                     "<leader>hi",
@@ -55,11 +55,21 @@ return {
                     gitsigns.blame_line({ full = true })
                 end, { desc = "Blane Line" })
 
-                map("n", "<leader>hd", gitsigns.diffthis, { desc = "Blane Line" })
+                map("n", "<leader>hd", gitsigns.diffthis, { desc = "Diff This" })
 
                 -- Toggles
-                map("n", "<leader>tb", gitsigns.toggle_current_line_blame)
-                map("n", "<leader>tw", gitsigns.toggle_word_diff)
+                map(
+                    "n",
+                    "<leader>tb",
+                    gitsigns.toggle_current_line_blame,
+                    { desc = "Toggle Current Line Blame" }
+                )
+                map(
+                    "n",
+                    "<leader>tw",
+                    gitsigns.toggle_word_diff,
+                    { desc = "Toggle Current Word Diff" }
+                )
 
                 -- Text object
                 map({ "o", "x" }, "ih", gitsigns.select_hunk)
