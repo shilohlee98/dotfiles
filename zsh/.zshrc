@@ -48,3 +48,5 @@ alias psv="source .venv/bin/activate"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+
+bindkey -v
