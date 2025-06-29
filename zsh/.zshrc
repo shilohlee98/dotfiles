@@ -5,7 +5,7 @@ ZSH_THEME="robbyrussell"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 alias v='nvim'
 
@@ -28,6 +28,8 @@ alias gp='git push'
 alias gpl='git pull'
 alias gsw='git switch'
 alias gcp='git cherry-pick'
+
+alias lg='lazygit'
 
 alias y='yazi'
 
