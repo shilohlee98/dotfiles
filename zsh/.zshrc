@@ -20,10 +20,14 @@ alias ga='git add'
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gb='git branch'
-alias gr='git restore'
+alias gr='git reset'
+alias grr='git restore'
+alias grb='git rebase'
 alias gd='git diff'
 alias gp='git push'
 alias gpl='git pull'
+alias gsw='git switch'
+alias gcp='git cherry-pick'
 
 alias y='yazi'
 
@@ -36,8 +40,10 @@ export NVM_DIR="$HOME/.nvm"
 export EDITOR='nvim'
 
 # zoxide
-eval "$(zoxide init zsh)"
-alias cd='z'
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+  alias cd='z'
+fi
 
 # python source with uv venv 
 alias psv="source .venv/bin/activate" 
