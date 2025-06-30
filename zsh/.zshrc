@@ -30,7 +30,7 @@ alias gsw='git switch'
 alias gcp='git cherry-pick'
 alias fgb='git switch $(git branch | fzf -m --height 40%)'
 alias fga='git add "$(git status --short | fzf -m --height 40% | awk "{print \$2}")"'
-alias fgp='git push origin $(git branch | fzf --height 40%)'
+alias fgp='git push origin $(git branch | sed "s/^..//" | fzf --height 40%)'
 
 alias lg='lazygit'
 
