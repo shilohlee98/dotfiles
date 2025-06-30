@@ -28,11 +28,33 @@ alias gp='git push'
 alias gpl='git pull'
 alias gsw='git switch'
 alias gcp='git cherry-pick'
-alias fgb='git switch $(git branch | fzf -m --height 40%)'
-alias fga='git add "$(git status --short | fzf -m --height 40% | awk "{print \$2}")"'
-alias fgp='git push origin $(git branch | sed "s/^..//" | fzf --height 40%)'
-
 alias lg='lazygit'
+
+__fzf_git_branch_insert() {
+  local branch=$(git branch | sed 's/^..//' | sort -u | fzf --height=40% --reverse --info=inline --prompt="Branch > ")
+  if [[ -n "$branch" ]]; then
+    LBUFFER+="$branch"
+    zle reset-prompt
+  else
+    zle redisplay
+  fi
+}
+
+__fzf_git_status_file_insert() {
+  local file=$(git status --short | cut -c4- | fzf --height=40% --reverse --info=inline --prompt="File > ")
+  if [[ -n "$file" ]]; then
+    LBUFFER+="$file"
+    zle reset-prompt
+  else
+    zle redisplay
+  fi
+}
+
+zle -N __fzf_git_status_file_insert
+bindkey '^F' __fzf_git_status_file_insert
+zle -N __fzf_git_branch_insert
+bindkey '^G' __fzf_git_branch_insert
+
 
 alias y='yazi'
 
@@ -59,5 +81,3 @@ alias psv="source .venv/bin/activate"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-
-bindkey -v
