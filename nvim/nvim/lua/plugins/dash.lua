@@ -1,46 +1,46 @@
 return {
-    "glepnir/dashboard-nvim",
-    event = "VimEnter",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-        local logo = [[ 
-                      ██████                     
-                  ████▒▒▒▒▒▒████                 
-                ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒██               
-              ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██             
-            ██▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒               
-            ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▓▓▓▓           
-            ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▒▒▓▓           
-          ██▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒    ██         
-          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██         
-          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██         
-          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██         
-          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██         
-          ██▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒██         
-          ████  ██▒▒██  ██▒▒▒▒██  ██▒▒██         
-          ██      ██      ████      ████         
-                                                     
-        ]]
-        logo = string.rep("\n", 8) .. logo .. "\n\n"
-        require("dashboard").setup({
-            theme = "doom",
-            config = {
-                header = vim.split(logo, "\n"),
-                center = {},
-                footer = function()
-                    local stats = require("lazy").stats()
-                    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-                    return {
-                        " Loaded "
-                            .. stats.loaded
-                            .. "/"
-                            .. stats.count
-                            .. " plugins in "
-                            .. ms
-                            .. "ms",
-                    }
-                end,
-            },
-        })
-    end,
+    -- "glepnir/dashboard-nvim",
+    -- event = "VimEnter",
+    -- dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- config = function()
+    --     local logo = [[
+    --                   ██████
+    --               ████▒▒▒▒▒▒████
+    --             ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒██
+    --           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██
+    --         ██▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒
+    --         ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▓▓▓▓
+    --         ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▒▒▓▓
+    --       ██▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒    ██
+    --       ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██
+    --       ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██
+    --       ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██
+    --       ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██
+    --       ██▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒██
+    --       ████  ██▒▒██  ██▒▒▒▒██  ██▒▒██
+    --       ██      ██      ████      ████
+    --
+    --     ]]
+    --     logo = string.rep("\n", 8) .. logo .. "\n\n"
+    --     require("dashboard").setup({
+    --         theme = "doom",
+    --         config = {
+    --             header = vim.split(logo, "\n"),
+    --             center = {},
+    --             footer = function()
+    --                 local stats = require("lazy").stats()
+    --                 local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+    --                 return {
+    --                     " Loaded "
+    --                         .. stats.loaded
+    --                         .. "/"
+    --                         .. stats.count
+    --                         .. " plugins in "
+    --                         .. ms
+    --                         .. "ms",
+    --                 }
+    --             end,
+    --         },
+    --     })
+    -- end,
 }
