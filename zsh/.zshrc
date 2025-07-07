@@ -30,6 +30,18 @@ alias gsw='git switch'
 alias gcp='git cherry-pick'
 alias lg='lazygit'
 
+jf() {
+  echo "$1" | yq -oj eval .
+}
+
+jfe() {
+  if [[ -z "$1" || -z "$2" ]]; then
+    echo "Usage: jfe '<yq expression>' '<json string>'"
+    return 1
+  fi
+  echo "$2" | yq -oj eval "$1" -
+}
+
 __fzf_git_branch_insert() {
   local branch=$(git branch | sed 's/^..//' | sort -u | fzf --height=40% --reverse --info=inline --prompt="Branch > ")
   if [[ -n "$branch" ]]; then
