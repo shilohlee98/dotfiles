@@ -6,7 +6,7 @@ return {
         config = function()
             require("lualine").setup({
                 options = {
-                    icons_enabled = true,
+                    icons_enabled = false,
                     theme = "auto",
                     globalstatus = true,
                     always_divide_middle = true,
@@ -32,7 +32,7 @@ return {
                     },
                     lualine_z = {
                         function()
-                            return " " .. os.date("%R")
+                            return os.date("%R")
                         end,
                     },
                 },
