@@ -25,4 +25,20 @@ return {
         event = "VeryLazy",
         enabled = vim.fn.has("nvim-0.10.0") == 1,
     },
+    {
+        'Wansmer/treesj',
+        keys = {
+            {
+                '<leader>[',
+                function() require('treesj').toggle() end,
+                desc = 'Treesj Toggle',
+            },
+        },
+        dependencies = { 'nvim-treesitter/nvim-treesitter' }, -- if you install parsers with `nvim-treesitter`
+        config = function()
+            require('treesj').setup({
+                use_default_keymaps = false,
+            })
+        end,
+    }
 }
