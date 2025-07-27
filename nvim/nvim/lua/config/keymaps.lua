@@ -94,6 +94,3 @@ map("n", "<C-d>", "<C-d>zz", {})
 --
 map("n", "n", "nzzzv", {})
 map("n", "N", "Nzzzv", {})
--- 10jk
-map("n", "<C-j>", "10jzz", {})
-map("n", "<C-k>", "10kzz", {})
