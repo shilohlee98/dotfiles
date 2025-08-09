@@ -2,7 +2,6 @@ return {
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
-        dependencies = { "nvim-lualine/lualine.nvim" },
         config = function()
             require("lualine").setup({
                 options = {
@@ -22,19 +21,27 @@ return {
                 },
                 sections = {
                     lualine_a = { "mode" },
-                    lualine_b = { "filetype" },
+                    lualine_b = {},
                     lualine_c = {
                         { "filename", path = 1 },
                     },
-                    lualine_x = { "branch", "diff", "diagnostics" },
+                    lualine_x = { "branch" },
                     lualine_y = {
-                        { "location", padding = { left = 0, right = 1 } },
+                        {
+                            function()
+                                local ok, sc = pcall(vim.fn.searchcount, { maxcount = 9999 })
+                                if not ok or not sc.total or sc.total == 0 then
+                                    return ""
+                                end
+                                return sc.current .. "/" .. sc.total
+                            end,
+                            cond = function()
+                                local ok, sc = pcall(vim.fn.searchcount, { maxcount = 1 })
+                                return vim.v.hlsearch == 1 and ok and sc.total and sc.total > 0
+                            end,
+                        },
                     },
-                    lualine_z = {
-                        function()
-                            return os.date("%R")
-                        end,
-                    },
+                    lualine_z = {},
                 },
                 inactive_sections = {
                     lualine_a = {},
@@ -67,20 +74,20 @@ return {
             })
         end,
         keys = {
-            { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",  desc = "Toggle Pin" },
+            { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
             {
                 "<leader>bP",
                 "<Cmd>BufferLineGroupClose ungrouped<CR>",
                 desc = "Delete Non-Pinned Buffers",
             },
             { "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers to the Right" },
-            { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>",  desc = "Delete Buffers to the Left" },
-            { "<S-h>",      "<cmd>BufferLineCyclePrev<cr>",  desc = "Prev Buffer" },
-            { "<S-l>",      "<cmd>BufferLineCycleNext<cr>",  desc = "Next Buffer" },
-            { "[b",         "<cmd>BufferLineCyclePrev<cr>",  desc = "Prev Buffer" },
-            { "]b",         "<cmd>BufferLineCycleNext<cr>",  desc = "Next Buffer" },
-            { "[B",         "<cmd>BufferLineMovePrev<cr>",   desc = "Move buffer prev" },
-            { "]B",         "<cmd>BufferLineMoveNext<cr>",   desc = "Move buffer next" },
+            { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers to the Left" },
+            { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+            { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+            { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+            { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+            { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
+            { "]B", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
         },
     },
 }

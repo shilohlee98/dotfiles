@@ -94,3 +94,34 @@ map("n", "<C-d>", "<C-d>zz", {})
 --
 map("n", "n", "nzzzv", {})
 map("n", "N", "Nzzzv", {})
+
+local function copy_and_notify(expr, label)
+    local s = vim.fn.expand(expr)
+    vim.fn.setreg("+", s)
+
+    local msg = string.format("Copied %s: %s", label, s)
+    if type(vim.notify) == "function" then
+        vim.notify(msg)
+    else
+        vim.api.nvim_echo({ { msg, "None" } }, false, {})
+    end
+end
+
+map("n", "<leader>cp", function()
+    copy_and_notify("%:p", "full path")
+end, { desc = "Copy full file path" })
+
+map("n", "<leader>cn", function()
+    copy_and_notify("%:t", "file name")
+end, { desc = "Copy file name" })
+
+map("n", "<leader>cr", function()
+    local s = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.")
+    vim.fn.setreg("+", s)
+    local msg = string.format("Copied relative path (cwd): %s", s)
+    if type(vim.notify) == "function" then
+        vim.notify(msg)
+    else
+        vim.api.nvim_echo({ { msg, "None" } }, false, {})
+    end
+end, { desc = "Copy relative path (to CWD)" })
