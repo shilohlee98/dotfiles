@@ -9,6 +9,9 @@ return {
             vim.g.copilot_no_tab_map = true
             vim.keymap.set("i", "<C-L>", "<Plug>(copilot-accept-word)")
             vim.keymap.set("i", "<C-K>", "<Plug>(copilot-dismiss)")
+            vim.keymap.set("i", "<C-c>", "<Plug>(copilot-dismiss)<C-c>", {
+                noremap = false,
+            })
         end,
     },
     {},
