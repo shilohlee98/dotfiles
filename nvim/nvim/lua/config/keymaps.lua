@@ -83,8 +83,15 @@ map("n", "<leader>yy", '"+yy', { desc = "System Clipboard Yank Line" })
 --
 map({ "n", "v" }, "<leader>p", '"+p', { desc = "System Clipboard Paste" })
 --
-map("n", "<C-u>", "<C-u>zz", {})
-map("n", "<C-d>", "<C-d>zz", {})
+-- map("n", "<C-u>", "<C-u>zz", {})
+-- map("n", "<C-d>", "<C-d>zz", {})
+map("n", "<C-d>", function()
+    return tostring(math.floor(vim.api.nvim_win_get_height(0) / 3)) .. "<C-d>zz"
+end, { expr = true, desc = "Scroll down 1/3 and center" })
+
+map("n", "<C-u>", function()
+    return tostring(math.floor(vim.api.nvim_win_get_height(0) / 3)) .. "<C-u>zz"
+end, { expr = true, desc = "Scroll up 1/3 and center" })
 --
 map("n", "n", "nzzzv", {})
 map("n", "N", "Nzzzv", {})

@@ -2,7 +2,8 @@ theme = Dracula
 font-size = 16
 background = 202020
 macos-option-as-alt = left
-font-feature = -liga,-clig,-dlig,-hlig,-calt,-cswh,-kern
+font-feature = -liga,-clig,-dlig,-hlig,-calt,-csch,-kern
 # font-family = "FiraMono Nerd Font"
 font-family = "JetBrains Mono Nerd Font"
+
 

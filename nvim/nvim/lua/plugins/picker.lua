@@ -2,8 +2,34 @@ return {
     "folke/snacks.nvim",
     opts = {
         picker = {
+            layout = {
+                layout = {
+                    backdrop = false,
+                    row = 1,
+                    width = 0.9,
+                    min_width = 80,
+                    height = 0.9,
+                    border = "none",
+                    box = "vertical",
+                    {
+                        win = "input",
+                        height = 1,
+                        border = "rounded",
+                        title = "{title} {live} {flags}",
+                        title_pos = "center",
+                    },
+                    { win = "list", height = 0.35, border = "rounded" },
+                    { win = "preview", title = "{preview}", border = "rounded" },
+                },
+            },
             sources = {
                 files = { hidden = true },
+            },
+            formatters = {
+                file = {
+                    filename_first = true,
+                    truncate = 300,
+                },
             },
         },
     },

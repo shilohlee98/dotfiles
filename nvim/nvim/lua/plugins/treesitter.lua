@@ -59,7 +59,7 @@ return {
         config = function()
             require("treesitter-context").setup({
                 enable = true, -- Enable this plugin
-                max_lines = 3, -- How many lines to show (0 = no limit)
+                max_lines = 10, -- How many lines to show (0 = no limit)
                 trim_scope = "outer", -- Which context lines to trim
                 mode = "cursor", -- Show context at cursor or top line
                 zindex = 20, -- UI z-index
