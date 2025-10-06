@@ -34,7 +34,7 @@ return {
             local lspconfig = require("lspconfig")
 
             require("mason-lspconfig").setup({
-                ensure_installed = { "pyright", "lua_ls" },
+                ensure_installed = { "pyright", "lua_ls", "ts_ls" },
                 automatic_installation = true,
             })
 
@@ -61,6 +61,23 @@ return {
                             client.server_capabilities.documentFormattingProvider = false
                             client.server_capabilities.documentRangeFormattingProvider = false
                         end,
+                    })
+                end,
+                ["ts_ls"] = function()
+                    lspconfig.ts_ls.setup({
+                        capabilities = capabilities,
+                        settings = {
+                            javascript = {
+                                format = {
+                                    insertSpaceBeforeFunctionParenthesis = true,
+                                },
+                            },
+                            typescript = {
+                                format = {
+                                    insertSpaceBeforeFunctionParenthesis = true,
+                                },
+                            },
+                        },
                     })
                 end,
             })

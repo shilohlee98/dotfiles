@@ -5,5 +5,3 @@ macos-option-as-alt = left
 font-feature = -liga,-clig,-dlig,-hlig,-calt,-csch,-kern
 # font-family = "FiraMono Nerd Font"
 font-family = "JetBrains Mono Nerd Font"
-
-

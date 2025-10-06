@@ -10,20 +10,20 @@ return {
             local dap = require("dap")
             local dapui = require("dapui")
 
-            dapui.setup()
+            dapui.setup({
+                layouts = {
+                    {
+                        elements = {
+                            { id = "repl", size = 0.5 },
+                            { id = "console", size = 0.5 },
+                        },
+                        position = "bottom",
+                        size = 15,
+                        direction = "vertical",
+                    },
+                },
+            })
             require("nvim-dap-virtual-text").setup()
-
-            -- Auto open/close UI when session starts/ends
-            dap.listeners.after.event_initialized["dapui_config"] = function()
-                dapui.open()
-            end
-            dap.listeners.before.event_terminated["dapui_config"] = function()
-                dapui.close()
-            end
-            dap.listeners.before.event_exited["dapui_config"] = function()
-                dapui.close()
-            end
-
             -- === js-debug adapter (pwa-node) ===
             local mason = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug"
             local node = vim.fn.exepath("node")
@@ -62,30 +62,28 @@ return {
                 program = "${file}",
                 cwd = "${workspaceFolder}",
                 sourceMaps = true,
+                console = "integratedTerminal",
                 protocol = "inspector",
                 resolveSourceMapLocations = { "${workspaceFolder}/**", "!**/node_modules/**" },
                 outFiles = { "${workspaceFolder}/**/*.js" },
                 skipFiles = { "<node_internals>/**", "**/node_modules/**" },
             }, common)
 
-            -- === ATTACH 1: attach by picking a process (PID) ===
-            local tsnode_attach_pid = vim.tbl_extend("force", {
+            local launch_npm_dev = {
                 type = "pwa-node",
-                request = "attach",
-                name = "Attach (pick process)",
-                processId = require("dap.utils").pick_process, -- Target process must be started with --inspect or --inspect-brk
-            }, common)
-
-            -- === ATTACH 2: attach to a port (default 9229) ===
-            local function attach_to_port(port)
-                dap.run(vim.tbl_extend("force", {
-                    type = "pwa-node",
-                    request = "attach",
-                    name = "Attach (port " .. port .. ")",
-                    address = "localhost",
-                    port = tonumber(port) or 9229,
-                }, common))
-            end
+                request = "launch",
+                name = "Launch npm run dev (inspect)",
+                runtimeExecutable = "npm",
+                runtimeArgs = { "run", "dev" },
+                env = { NODE_OPTIONS = "--inspect=9229" },
+                cwd = vim.loop.cwd(),
+                console = "integratedTerminal",
+                sourceMaps = true,
+                protocol = "inspector",
+                outFiles = { "${workspaceFolder}/**/*.js" },
+                resolveSourceMapLocations = { "${workspaceFolder}/**", "!**/node_modules/**" },
+                skipFiles = { "<node_internals>/**", "**/node_modules/**" },
+            }
 
             dap.configurations.typescript = { tsnode_launch, tsnode_attach_pid }
             dap.configurations.typescriptreact = { tsnode_launch, tsnode_attach_pid }
@@ -103,6 +101,11 @@ return {
                 dap.toggle_breakpoint,
                 { desc = "DAP Toggle Breakpoint" }
             )
+
+            -- vim.keymap.set("n", "<F6>", function()
+            --     require("dapui").float_element("breakpoints")
+            -- end, { desc = "DAP float" })
+            --
             vim.keymap.set("n", "<leader>du", function()
                 require("dapui").toggle()
             end, { desc = "DAP UI Toggle" })
@@ -112,17 +115,9 @@ return {
                 dap.run(tsnode_launch)
             end, { desc = "DAP: Run current TS file via npx ts-node" })
 
-            -- Attach: pick process (PID)
-            vim.keymap.set("n", "<leader>da", function()
-                dap.run(tsnode_attach_pid)
-            end, { desc = "DAP: Attach (pick process)" })
-
-            -- Attach: input port (default 9229)
-            vim.keymap.set("n", "<leader>dp", function()
-                vim.ui.input({ prompt = "Attach port (default 9229): " }, function(input)
-                    attach_to_port(tonumber(input) or 9229)
-                end)
-            end, { desc = "DAP: Attach (port)" })
+            vim.keymap.set("n", "<leader>dd", function()
+                dap.run(launch_npm_dev)
+            end, { desc = "DAP: Launch npm run dev (inspect)" })
         end,
     },
 }
