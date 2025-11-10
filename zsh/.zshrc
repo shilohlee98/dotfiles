@@ -18,17 +18,22 @@ alias gl1='git log --oneline'
 alias gs='git status'
 alias ga='git add'
 alias gc='git commit'
+alias gco='git checkout'
 alias gcm='git commit -m'
 alias gb='git branch'
-alias gr='git reset'
+alias grs='git reset'
 alias grr='git restore'
 alias grb='git rebase'
 alias gd='git diff'
+alias gfo='git fetch origin'
 alias gp='git push'
+alias gpo='git push origin'
 alias gpl='git pull'
 alias gsw='git switch'
 alias gcp='git cherry-pick'
 alias lg='lazygit'
+
+alias vj='jq . | nvim -c "set ft=json | set syntax=on | setlocal buftype=nofile bufhidden=wipe noswapfile" -'
 
 jf() {
   echo "$1" | yq -oj eval .
@@ -95,3 +100,8 @@ alias psv="source .venv/bin/activate"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+export PATH='~/.duckdb/cli/latest':$PATH
+
+export PATH="/Library/TeX/texbin:$PATH"
