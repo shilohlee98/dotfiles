@@ -16,6 +16,7 @@ return {
             theme.replace.a = { fg = black, bg = white }
             theme.command.a = { fg = black, bg = white }
             theme.inactive.a = { fg = black, bg = white }
+            theme.terminal.a = { fg = black, bg = white }
 
             theme.normal.b = { fg = white, bg = gray }
             theme.insert.b = { fg = white, bg = gray }
@@ -23,6 +24,7 @@ return {
             theme.replace.b = { fg = white, bg = gray }
             theme.command.b = { fg = white, bg = gray }
             theme.inactive.b = { fg = white, bg = gray }
+            theme.terminal.b = { fg = white, bg = gray }
 
             lualine.setup({
                 options = {
