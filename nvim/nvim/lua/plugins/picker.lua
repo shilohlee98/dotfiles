@@ -14,12 +14,12 @@ return {
                     {
                         win = "input",
                         height = 1,
-                        border = "rounded",
+                        border = "top",
                         title = "{title} {live} {flags}",
                         title_pos = "center",
                     },
-                    { win = "list", height = 0.35, border = "rounded" },
-                    { win = "preview", title = "{preview}", border = "rounded" },
+                    { win = "list", height = 0.35, border = "top" },
+                    { win = "preview", title = "{preview}", border = "top" },
                 },
             },
             sources = {
@@ -128,6 +128,21 @@ return {
                 Snacks.picker.lsp_type_definitions()
             end,
             desc = "Goto T[y]pe Definition",
+        },
+        {
+            "<leader>sd",
+            function()
+                Snacks.picker.diagnostics_buffer()
+            end,
+            desc = "Buffer Diagnostics",
+        },
+        {
+            "<leader>sw",
+            function()
+                Snacks.picker.grep_word()
+            end,
+            desc = "Visual selection or word",
+            mode = { "n", "x" },
         },
     },
 }
