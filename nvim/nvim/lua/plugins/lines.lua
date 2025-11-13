@@ -52,7 +52,8 @@ return {
                         { "filename", path = 1 },
                     },
                     lualine_x = {},
-                    lualine_y = {
+                    lualine_y = { "diagnostics" },
+                    lualine_z = {
                         {
                             function()
                                 local ok, sc = pcall(vim.fn.searchcount, { maxcount = 9999 })
@@ -67,7 +68,6 @@ return {
                             end,
                         },
                     },
-                    lualine_z = {},
                 },
 
                 inactive_sections = {
