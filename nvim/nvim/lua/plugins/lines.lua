@@ -3,10 +3,30 @@ return {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
         config = function()
-            require("lualine").setup({
+            local lualine = require("lualine")
+            local theme = require("lualine.themes.auto")
+
+            local white = "#ffffff"
+            local black = "#000000"
+            local gray = "#4a4a4a"
+
+            theme.normal.a = { fg = black, bg = white }
+            theme.insert.a = { fg = black, bg = white }
+            theme.visual.a = { fg = black, bg = white }
+            theme.replace.a = { fg = black, bg = white }
+            theme.command.a = { fg = black, bg = white }
+            theme.inactive.a = { fg = black, bg = white }
+
+            theme.normal.b = { fg = white, bg = gray }
+            theme.insert.b = { fg = white, bg = gray }
+            theme.visual.b = { fg = white, bg = gray }
+            theme.replace.b = { fg = white, bg = gray }
+            theme.command.b = { fg = white, bg = gray }
+            theme.inactive.b = { fg = white, bg = gray }
+
+            lualine.setup({
                 options = {
                     icons_enabled = false,
-                    theme = "auto",
                     globalstatus = true,
                     always_divide_middle = true,
                     disabled_filetypes = {
@@ -18,14 +38,18 @@ return {
                         tabline = 100,
                         winbar = 100,
                     },
+                    section_separators = { left = "", right = "" },
+                    theme = theme,
                 },
+
                 sections = {
                     lualine_a = { "mode" },
-                    lualine_b = {},
+                    lualine_b = { "branch" },
                     lualine_c = {
+                        -- { "filename", path = 1, color = { fg = white, bg = gray } },
                         { "filename", path = 1 },
                     },
-                    lualine_x = { "branch" },
+                    lualine_x = {},
                     lualine_y = {
                         {
                             function()
@@ -43,14 +67,16 @@ return {
                     },
                     lualine_z = {},
                 },
+
                 inactive_sections = {
                     lualine_a = {},
                     lualine_b = {},
-                    lualine_c = { "filename" },
+                    lualine_c = {},
                     lualine_x = { "location" },
                     lualine_y = {},
                     lualine_z = {},
                 },
+
                 tabline = {},
                 winbar = {},
                 inactive_winbar = {},
