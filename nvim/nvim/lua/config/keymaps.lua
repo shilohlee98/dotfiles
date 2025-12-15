@@ -76,7 +76,7 @@ map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
 map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 -- quit
-map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
+map("n", "<leader>q", "<cmd>qa<cr>", { desc = "Quit All" })
 --
 map({ "n", "v" }, "<leader>y", '"+y', { desc = "System Clipboard Yank" })
 map("n", "<leader>yy", '"+yy', { desc = "System Clipboard Yank Line" })

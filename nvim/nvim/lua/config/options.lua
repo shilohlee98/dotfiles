@@ -35,3 +35,5 @@ vim.api.nvim_create_autocmd("ColorScheme", {
         )
     end,
 })
+vim.opt.grepprg = "rg --vimgrep --smart-case --hidden"
+vim.opt.grepformat = "%f:%l:%c:%m"

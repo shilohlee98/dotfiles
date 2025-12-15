@@ -58,11 +58,23 @@ __fzf_git_branch_insert() {
 }
 
 __fzf_git_status_file_insert() {
-  local result
-  result=$(git status --short | fzf --height=40% --reverse --info=inline --prompt="File > ")
-  if [[ -n "$result" ]]; then
-    local file="${result##?? }"
-    LBUFFER+="$file"
+  local results files
+
+  results=$(
+    git status --short |
+      fzf --multi \
+          --height=40% \
+          --reverse \
+          --info=inline \
+          --prompt="File > "
+  )
+
+  if [[ -n "$results" ]]; then
+    files=$(printf '%s\n' "$results" | sed 's/^.. //')
+
+    files=${files//$'\n'/ }
+
+    LBUFFER+="$files "
     zle reset-prompt
   else
     zle redisplay
