@@ -1,4 +1,5 @@
 export ZSH="$HOME/.oh-my-zsh"
+[ -f ~/.zshrc.private ] && source ~/.zshrc.private
 
 ZSH_THEME="robbyrussell"
 
@@ -115,5 +116,7 @@ export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 export PATH='~/.duckdb/cli/latest':$PATH
+# GO Lsp
+export PATH=$PATH:$(go env GOPATH)/bin
 
 export PATH="/Library/TeX/texbin:$PATH"
