@@ -116,7 +116,7 @@ return {
             desc = "References",
         },
         {
-            "gI",
+            "ge",
             function()
                 Snacks.picker.lsp_implementations()
             end,
@@ -128,6 +128,20 @@ return {
                 Snacks.picker.lsp_type_definitions()
             end,
             desc = "Goto T[y]pe Definition",
+        },
+        {
+            "gai",
+            function()
+                Snacks.picker.lsp_incoming_calls()
+            end,
+            desc = "C[a]lls Incoming",
+        },
+        {
+            "gao",
+            function()
+                Snacks.picker.lsp_outgoing_calls()
+            end,
+            desc = "C[a]lls Outgoing",
         },
         {
             "<leader>sd",
