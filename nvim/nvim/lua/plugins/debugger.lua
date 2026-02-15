@@ -85,6 +85,33 @@ return {
                 skipFiles = { "<node_internals>/**", "**/node_modules/**" },
             }
 
+            local function prompt_js_command_launch()
+                local cmd = vim.trim(vim.fn.input("cmd: "))
+                if cmd == "" then
+                    vim.notify("DAP: empty JS command", vim.log.levels.WARN)
+                    return nil
+                end
+
+                local parts = vim.split(cmd, "%s+", { trimempty = true })
+                local runtime = table.remove(parts, 1)
+                if not runtime or runtime == "" then
+                    vim.notify("DAP: invalid JS command", vim.log.levels.ERROR)
+                    return nil
+                end
+
+                return vim.tbl_extend("force", {
+                    type = "pwa-node",
+                    request = "launch",
+                    name = "Run JS command (prompt)",
+                    runtimeExecutable = runtime,
+                    runtimeArgs = parts,
+                    cwd = "${workspaceFolder}",
+                    console = "integratedTerminal",
+                    protocol = "inspector",
+                    outFiles = { "${workspaceFolder}/**/*.js" },
+                }, common)
+            end
+
             dap.configurations.typescript = { tsnode_launch, tsnode_attach_pid }
             dap.configurations.typescriptreact = { tsnode_launch, tsnode_attach_pid }
             dap.configurations.javascript = { tsnode_launch, tsnode_attach_pid }
@@ -121,6 +148,13 @@ return {
             vim.keymap.set("n", "<leader>dd", function()
                 dap.run(launch_npm_dev)
             end, { desc = "DAP: Launch npm run dev (inspect)" })
+
+            vim.keymap.set("n", "<leader>dj", function()
+                local cfg = prompt_js_command_launch()
+                if cfg then
+                    dap.run(cfg)
+                end
+            end, { desc = "DAP: Prompt and run JS command" })
         end,
     },
 }
