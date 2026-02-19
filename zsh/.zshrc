@@ -14,6 +14,26 @@ alias t='tmux'
 alias ta='tmux a'
 alias tl='tmux ls'
 
+t5() {
+  if [ -z "$TMUX" ]; then
+    tmux new-session -d -s t5
+    tmux attach -t t5
+    return
+  fi
+
+  tmux rename-window f1 \; \
+    new-window -n b1 \; \
+    new-window -n b2 \; \
+    new-window -n o  \; \
+    new-window -n r  \; \
+    select-window -t f1 \; split-window -h \; split-window -v \; \
+    select-window -t b1 \; split-window -h \; split-window -v \; \
+    select-window -t b2 \; split-window -h \; split-window -v \; \
+    select-window -t o  \; split-window -h \; split-window -v \; \
+    select-window -t r  \; split-window -h \; split-window -v \; \
+    select-window -t f1
+}
+
 alias gl='git log'
 alias gl1='git log --oneline'
 alias gs='git status'
