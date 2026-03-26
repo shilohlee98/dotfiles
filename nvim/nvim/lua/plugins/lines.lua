@@ -48,7 +48,11 @@ return {
                     lualine_a = { "mode" },
                     lualine_b = { "branch" },
                     lualine_c = {
-                        -- { "filename", path = 1, color = { fg = white, bg = gray } },
+                        {
+                            function()
+                                return vim.fn.fnamemodify(vim.loop.cwd(), ":t")
+                            end,
+                        },
                         { "filename", path = 1 },
                     },
                     lualine_x = {},
