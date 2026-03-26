@@ -5,6 +5,7 @@ return {
             "rcarriga/nvim-dap-ui",
             "theHamsta/nvim-dap-virtual-text",
             "nvim-neotest/nvim-nio",
+            "leoluz/nvim-dap-go",
         },
         config = function()
             local dap = require("dap")
@@ -24,6 +25,20 @@ return {
                 },
             })
             require("nvim-dap-virtual-text").setup()
+
+            local dapgo = require("dap-go")
+            local dlv = vim.fn.exepath("dlv")
+            if dlv == "" then
+                dlv = "dlv"
+            end
+            dapgo.setup({
+                delve = {
+                    path = dlv,
+                    initialize_timeout_sec = 20,
+                    port = "${port}",
+                },
+            })
+
             -- === js-debug adapter (pwa-node) ===
             local mason = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug"
             local node = vim.fn.exepath("node")
@@ -155,6 +170,18 @@ return {
                     dap.run(cfg)
                 end
             end, { desc = "DAP: Prompt and run JS command" })
+
+            vim.keymap.set("n", "<leader>dgp", function()
+                dapgo.debug_package()
+            end, { desc = "DAP: Go debug package" })
+
+            vim.keymap.set("n", "<leader>dgt", function()
+                dapgo.debug_test()
+            end, { desc = "DAP: Go debug test" })
+
+            vim.keymap.set("n", "<leader>dgl", function()
+                dapgo.debug_last()
+            end, { desc = "DAP: Go debug last" })
         end,
     },
 }

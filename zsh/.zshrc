@@ -54,6 +54,10 @@ alias gsw='git switch'
 alias gcp='git cherry-pick'
 alias lg='lazygit'
 
+alias kk='kubectl'
+alias ktx='kubectx'
+alias kns='kubens'
+
 alias vj='jq . | nvim -c "set ft=json | set syntax=on | setlocal buftype=nofile bufhidden=wipe noswapfile" -'
 
 jf() {
@@ -134,6 +138,8 @@ alias psv="source .venv/bin/activate"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+export DOCKER_HOST=unix:///Users/shilohlee/.orbstack/run/docker.sock
 
 export PATH='~/.duckdb/cli/latest':$PATH
 # GO Lsp
