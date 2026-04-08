@@ -29,8 +29,8 @@ t5() {
     select-window -t f1 \; split-window -h \; split-window -v \; \
     select-window -t b1 \; split-window -h \; split-window -v \; \
     select-window -t b2 \; split-window -h \; split-window -v \; \
-    select-window -t o  \; split-window -h \; split-window -v \; \
-    select-window -t r  \; split-window -h \; split-window -v \; \
+    select-window -t o  \; split-window -h \; \
+    select-window -t r  \; split-window -h \; \
     select-window -t f1
 }
 

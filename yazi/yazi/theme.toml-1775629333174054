@@ -1,39 +1,39 @@
 # 背景
-[mgr]
+[manager]
 cwd = { fg = "#c8c8c8" }
 
 # 檔案列表
-[mgr.file]
+[manager.file]
 fg = "#d8d8d8"
 
 # 選取
-[mgr.selection]
+[manager.selection]
 fg = "#d8d8d8"
 bg = "#111111"
 
 # hovered（游標所在）
-[mgr.hovered]
+[manager.hovered]
 fg = "#ffffff"
 bg = "#111111"
 
 # inactive（灰）
-[mgr.inactive]
+[manager.inactive]
 fg = "#707070"
 
 # directory
-[mgr.directory]
+[manager.directory]
 fg = "#7aa2f7"
 
 # symlink
-[mgr.symlink]
+[manager.symlink]
 fg = "#56b6c2"
 
 # executable
-[mgr.executable]
+[manager.executable]
 fg = "#98c379"
 
 # archive
-[mgr.archive]
+[manager.archive]
 fg = "#e5c07b"
 
 # border
