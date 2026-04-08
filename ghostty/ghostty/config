@@ -1,30 +1,31 @@
 theme = Dracula
 font-size = 16
-# background / foreground
-background = #000000
-foreground = #d8d8d8
 
-# cursor
+background = #000000
+
+foreground = #dcdcdc
 cursor-color = #e6e6e6
 
-# selection
 selection-background = #3E424A
 selection-foreground = #ffffff
 
-palette = 0=#14171d
-palette = 1=#e27878
+palette = 0=#1a1d23
+
+palette = 1=#e06c75
 palette = 2=#98c379
 palette = 3=#e5c07b
-palette = 4=#7aa2f7
+palette = 4=#61afef
 palette = 5=#c678dd
 palette = 6=#56b6c2
-palette = 7=#c8c8c8
 
-palette = 8=#707070
+palette = 7=#d0d0d0
+
+palette = 8=#808080
+
 palette = 9=#ff8f8f
 palette = 10=#b4e88c
 palette = 11=#f0d197
-palette = 12=#9ec1ff
+palette = 12=#8ccaff
 palette = 13=#e2a8ff
 palette = 14=#7fdde6
 palette = 15=#ffffff
