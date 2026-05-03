@@ -7,6 +7,21 @@ return {
             "nvim-neotest/nvim-nio",
             "leoluz/nvim-dap-go",
         },
+        keys = {
+            { "<F5>", desc = "DAP Continue" },
+            { "<F10>", desc = "DAP Step Over" },
+            { "<F11>", desc = "DAP Step Into" },
+            { "<F12>", desc = "DAP Step Out" },
+            { "<leader>db", desc = "DAP Toggle Breakpoint" },
+            { "<leader>dd", desc = "DAP: Launch npm run dev (inspect)" },
+            { "<leader>dj", desc = "DAP: Prompt and run JS command" },
+            { "<leader>dq", desc = "Stop Debugging" },
+            { "<leader>dr", desc = "DAP: Run current TS file via npx ts-node" },
+            { "<leader>du", desc = "DAP UI Toggle" },
+            { "<leader>dgl", desc = "DAP: Go debug last" },
+            { "<leader>dgp", desc = "DAP: Go debug package" },
+            { "<leader>dgt", desc = "DAP: Go debug test" },
+        },
         config = function()
             local dap = require("dap")
             local dapui = require("dapui")
@@ -91,7 +106,7 @@ return {
                 runtimeExecutable = "npm",
                 runtimeArgs = { "run", "dev" },
                 env = { NODE_OPTIONS = "--inspect=9229" },
-                cwd = vim.loop.cwd(),
+                cwd = vim.uv.cwd(),
                 console = "integratedTerminal",
                 sourceMaps = true,
                 protocol = "inspector",
@@ -127,10 +142,10 @@ return {
                 }, common)
             end
 
-            dap.configurations.typescript = { tsnode_launch, tsnode_attach_pid }
-            dap.configurations.typescriptreact = { tsnode_launch, tsnode_attach_pid }
-            dap.configurations.javascript = { tsnode_launch, tsnode_attach_pid }
-            dap.configurations.javascriptreact = { tsnode_launch, tsnode_attach_pid }
+            dap.configurations.typescript = { tsnode_launch }
+            dap.configurations.typescriptreact = { tsnode_launch }
+            dap.configurations.javascript = { tsnode_launch }
+            dap.configurations.javascriptreact = { tsnode_launch }
 
             -- === keymaps ===
             vim.keymap.set("n", "<F5>", dap.continue, { desc = "DAP Continue" })
@@ -147,10 +162,6 @@ return {
                 { desc = "DAP Toggle Breakpoint" }
             )
 
-            -- vim.keymap.set("n", "<F6>", function()
-            --     require("dapui").float_element("breakpoints")
-            -- end, { desc = "DAP float" })
-            --
             vim.keymap.set("n", "<leader>du", function()
                 require("dapui").toggle()
             end, { desc = "DAP UI Toggle" })

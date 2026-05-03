@@ -29,7 +29,7 @@ return {
             -- See :h blink-cmp-config-keymap for defining your own keymap
             keymap = {
                 preset = "default",
-                ['<Tab>'] = {
+                ["<Tab>"] = {
                     function(cmp)
                         if cmp.snippet_active() then
                             return cmp.accept()
@@ -37,12 +37,11 @@ return {
                             return cmp.select_and_accept()
                         end
                     end,
-                    'snippet_forward',
-                    'fallback'
+                    "snippet_forward",
+                    "fallback",
                 },
-                ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+                ["<S-Tab>"] = { "snippet_backward", "fallback" },
             },
-
 
             appearance = {
                 -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'

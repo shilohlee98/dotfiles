@@ -94,7 +94,6 @@ return {
             })
 
             local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities.offsetEncoding = { "utf-16" }
 
             local has_blink, blink = pcall(require, "blink.cmp")
             if has_blink then

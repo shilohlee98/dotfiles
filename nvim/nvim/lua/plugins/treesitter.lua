@@ -1,11 +1,16 @@
--- treesitter
+local parser_install_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "treesitter-parsers")
+
 return {
     {
         "nvim-treesitter/nvim-treesitter",
         event = "VeryLazy",
         build = ":TSUpdate",
+        init = function()
+            vim.opt.runtimepath:prepend(parser_install_dir)
+        end,
         config = function()
             require("nvim-treesitter.configs").setup({
+                parser_install_dir = parser_install_dir,
                 ensure_installed = {
                     "c",
                     "cpp",
@@ -35,6 +40,7 @@ return {
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
+        event = "VeryLazy",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         config = function()
             require("nvim-treesitter.configs").setup({
