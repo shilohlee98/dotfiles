@@ -1,8 +1,90 @@
+local servers = { "pyright", "lua_ls", "tsgo" }
+
+local mason_packages = {
+    "pyright",
+    "lua-language-server",
+    "tsgo",
+}
+
+local function restart_lsp_for_open_buffers()
+    if vim.v.vim_did_enter ~= 1 then
+        return
+    end
+
+    vim.schedule(function()
+        pcall(vim.cmd.doautoall, "FileType")
+    end)
+end
+
+local function ensure_mason_packages_installed(packages)
+    local registry = require("mason-registry")
+
+    registry.refresh(function()
+        for _, package_name in ipairs(packages) do
+            local ok, pkg = pcall(registry.get_package, package_name)
+
+            if not ok then
+                vim.notify(
+                    ("Mason package not found: %s"):format(package_name),
+                    vim.log.levels.WARN
+                )
+            elseif not pkg:is_installed() then
+                pkg:once("install:success", restart_lsp_for_open_buffers)
+                pkg:install()
+            end
+        end
+    end)
+end
+
+local function tsgo_root_dir(bufnr, on_dir)
+    local root_markers = {
+        {
+            "package-lock.json",
+            "yarn.lock",
+            "pnpm-lock.yaml",
+            "bun.lockb",
+            "bun.lock",
+        },
+        { ".git" },
+    }
+
+    local deno_root = vim.fs.root(bufnr, { "deno.json", "deno.jsonc" })
+    local deno_lock_root = vim.fs.root(bufnr, { "deno.lock" })
+    local project_root = vim.fs.root(bufnr, root_markers)
+
+    if deno_lock_root and (not project_root or #deno_lock_root > #project_root) then
+        return
+    end
+
+    if deno_root and (not project_root or #deno_root >= #project_root) then
+        return
+    end
+
+    on_dir(project_root or vim.fn.getcwd())
+end
+
+local function tsgo_cmd(dispatchers, config)
+    local cmd = "tsgo"
+
+    if (config or {}).root_dir then
+        local local_cmd = vim.fs.joinpath(config.root_dir, "node_modules/.bin", cmd)
+
+        if vim.fn.executable(local_cmd) == 1 then
+            cmd = local_cmd
+        end
+    end
+
+    return vim.lsp.rpc.start({ cmd, "--lsp", "--stdio" }, dispatchers)
+end
+
 return {
     {
-        "neovim/nvim-lspconfig",
+        "williamboman/mason.nvim",
         event = "VeryLazy",
         config = function()
+            require("mason").setup()
+            ensure_mason_packages_installed(mason_packages)
+
             vim.diagnostic.config({
                 float = { border = "rounded" },
                 virtual_text = {
@@ -10,95 +92,112 @@ return {
                     spacing = 4,
                 },
             })
-        end,
-    },
 
-    {
-        "williamboman/mason.nvim",
-        event = "VeryLazy",
-        config = function()
-            require("mason").setup()
-        end,
-    },
-
-    {
-        "williamboman/mason-lspconfig.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            "mason.nvim",
-            "neovim/nvim-lspconfig",
-        },
-        config = function()
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities.offsetEncoding = { "utf-16" }
-            local lspconfig = require("lspconfig")
 
-            require("mason-lspconfig").setup({
-                ensure_installed = { "pyright", "lua_ls", "ts_ls" },
-                automatic_installation = true,
+            local has_blink, blink = pcall(require, "blink.cmp")
+            if has_blink then
+                capabilities = blink.get_lsp_capabilities(capabilities)
+            end
+
+            vim.lsp.config("*", {
+                capabilities = capabilities,
             })
 
-            require("mason-lspconfig").setup_handlers({
-                -- Default handler
-                function(server_name)
-                    lspconfig[server_name].setup({
-                        capabilities = capabilities,
-                    })
-                end,
-
-                -- Custom pyright handler
-                ["pyright"] = function()
-                    lspconfig.pyright.setup({
-                        capabilities = capabilities,
-                        settings = {
-                            python = {
-                                analysis = {
-                                    typeCheckingMode = "off",
-                                },
-                            },
+            vim.lsp.config("pyright", {
+                cmd = { "pyright-langserver", "--stdio" },
+                filetypes = { "python" },
+                root_markers = {
+                    "pyproject.toml",
+                    "setup.py",
+                    "setup.cfg",
+                    "requirements.txt",
+                    "Pipfile",
+                    "pyrightconfig.json",
+                    ".git",
+                },
+                settings = {
+                    python = {
+                        analysis = {
+                            autoSearchPaths = true,
+                            diagnosticMode = "openFilesOnly",
+                            typeCheckingMode = "off",
+                            useLibraryCodeForTypes = true,
                         },
-                        on_attach = function(client)
-                            client.server_capabilities.documentFormattingProvider = false
-                            client.server_capabilities.documentRangeFormattingProvider = false
-                        end,
-                    })
-                end,
-                ["ts_ls"] = function()
-                    lspconfig.ts_ls.setup({
-                        capabilities = capabilities,
-                        settings = {
-                            javascript = {
-                                format = {
-                                    insertSpaceBeforeFunctionParenthesis = true,
-                                },
-                            },
-                            typescript = {
-                                format = {
-                                    insertSpaceBeforeFunctionParenthesis = true,
-                                },
-                            },
-                        },
-                    })
-                end,
-                ["lua_ls"] = function()
-                    lspconfig.lua_ls.setup({
-                        capabilities = capabilities,
-                        settings = {
-                            Lua = {
-                                runtime = { version = "LuaJIT" },
-                                diagnostics = {
-                                    globals = { "vim", "Snacks" },
-                                },
-                                workspace = {
-                                    library = vim.api.nvim_get_runtime_file("", true),
-                                    checkThirdParty = false,
-                                },
-                                telemetry = { enable = false },
-                            },
-                        },
-                    })
+                    },
+                },
+                on_attach = function(client)
+                    client.server_capabilities.documentFormattingProvider = false
+                    client.server_capabilities.documentRangeFormattingProvider = false
                 end,
             })
+
+            vim.lsp.config("tsgo", {
+                cmd = tsgo_cmd,
+                filetypes = {
+                    "javascript",
+                    "javascriptreact",
+                    "javascript.jsx",
+                    "typescript",
+                    "typescriptreact",
+                    "typescript.tsx",
+                },
+                root_dir = tsgo_root_dir,
+                settings = {
+                    typescript = {
+                        inlayHints = {
+                            parameterNames = {
+                                enabled = "literals",
+                                suppressWhenArgumentMatchesName = true,
+                            },
+                            parameterTypes = { enabled = true },
+                            variableTypes = { enabled = true },
+                            propertyDeclarationTypes = { enabled = true },
+                            functionLikeReturnTypes = { enabled = true },
+                            enumMemberValues = { enabled = true },
+                        },
+                        format = {
+                            insertSpaceBeforeFunctionParenthesis = true,
+                        },
+                    },
+                    javascript = {
+                        format = {
+                            insertSpaceBeforeFunctionParenthesis = true,
+                        },
+                    },
+                },
+            })
+
+            vim.lsp.config("lua_ls", {
+                cmd = { "lua-language-server" },
+                filetypes = { "lua" },
+                root_markers = {
+                    ".luarc.json",
+                    ".luarc.jsonc",
+                    ".luacheckrc",
+                    ".stylua.toml",
+                    "stylua.toml",
+                    "selene.toml",
+                    "selene.yml",
+                    ".git",
+                },
+                settings = {
+                    Lua = {
+                        runtime = { version = "LuaJIT" },
+                        diagnostics = {
+                            globals = { "vim", "Snacks" },
+                        },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true),
+                            checkThirdParty = false,
+                        },
+                        telemetry = { enable = false },
+                    },
+                },
+            })
+
+            vim.lsp.enable(servers)
         end,
     },
 }
