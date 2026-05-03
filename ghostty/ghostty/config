@@ -1,34 +1,33 @@
-theme = Dracula
 font-size = 16
 
+# no-clown-fiesta.nvim dark palette, with a pure black terminal background.
 background = #000000
+foreground = #E1E1E1
+cursor-color = #D0D0D0
 
-foreground = #dcdcdc
-cursor-color = #e6e6e6
+selection-background = #373737
+selection-foreground = #E1E1E1
 
-selection-background = #3E424A
-selection-foreground = #ffffff
+palette = 0=#202020
 
-palette = 0=#1a1d23
+palette = 1=#B46958
+palette = 2=#90A959
+palette = 3=#F4BF75
+palette = 4=#BAD7FF
+palette = 5=#AA749F
+palette = 6=#88AFA2
 
-palette = 1=#e06c75
-palette = 2=#98c379
-palette = 3=#e5c07b
-palette = 4=#61afef
-palette = 5=#c678dd
-palette = 6=#56b6c2
+palette = 7=#D0D0D0
 
-palette = 7=#d0d0d0
+palette = 8=#727272
 
-palette = 8=#808080
-
-palette = 9=#ff8f8f
-palette = 10=#b4e88c
-palette = 11=#f0d197
-palette = 12=#8ccaff
-palette = 13=#e2a8ff
-palette = 14=#7fdde6
-palette = 15=#ffffff
+palette = 9=#B46958
+palette = 10=#90A959
+palette = 11=#F4BF75
+palette = 12=#BAD7FF
+palette = 13=#AA759F
+palette = 14=#88AFA2
+palette = 15=#E1E1E1
 
 macos-option-as-alt = left
 font-feature = -liga,-clig,-dlig,-hlig,-calt,-csch,-kern
