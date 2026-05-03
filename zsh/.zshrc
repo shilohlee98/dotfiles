@@ -2,9 +2,6 @@ export ZSH="$HOME/.oh-my-zsh"
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
 
 ZSH_THEME="robbyrussell"
-
-plugins=(git)
-
 source $ZSH/oh-my-zsh.sh
 # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
@@ -53,6 +50,10 @@ alias gpl='git pull'
 alias gsw='git switch'
 alias gcp='git cherry-pick'
 alias lg='lazygit'
+
+gdnt() {
+  git diff "$@" -- . ':(glob,exclude)**/*integration*' ':(glob,exclude)**/*test*'
+}
 
 alias kk='kubectl'
 alias ktx='kubectx'

@@ -1,5 +1,6 @@
 return {
     "echasnovski/mini.icons",
+    lazy = false,
     version = false,
     priority = 1000,
     init = function()
@@ -7,5 +8,9 @@ return {
             require("mini.icons").mock_nvim_web_devicons()
             return package.loaded["nvim-web-devicons"]
         end
+    end,
+    config = function()
+        require("mini.icons").setup()
+        require("mini.icons").mock_nvim_web_devicons()
     end,
 }
