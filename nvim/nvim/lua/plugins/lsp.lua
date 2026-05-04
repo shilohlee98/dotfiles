@@ -1,9 +1,10 @@
-local servers = { "pyright", "lua_ls", "tsgo" }
+local servers = { "pyright", "lua_ls", "tsgo", "gopls" }
 
 local mason_packages = {
     "pyright",
     "lua-language-server",
     "tsgo",
+    "gopls",
 }
 
 local function restart_lsp_for_open_buffers()
@@ -225,6 +226,21 @@ return {
                             checkThirdParty = false,
                         },
                         telemetry = { enable = false },
+                    },
+                },
+            })
+
+            vim.lsp.config("gopls", {
+                cmd = { "gopls" },
+                filetypes = { "go", "gomod", "gowork", "gotmpl" },
+                root_markers = { "go.work", "go.mod", ".git" },
+                settings = {
+                    gopls = {
+                        analyses = {
+                            unusedparams = true,
+                        },
+                        staticcheck = true,
+                        gofumpt = true,
                     },
                 },
             })
