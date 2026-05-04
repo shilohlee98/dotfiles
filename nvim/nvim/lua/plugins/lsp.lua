@@ -38,14 +38,9 @@ end
 
 local function tsgo_root_dir(bufnr, on_dir)
     local root_markers = {
-        {
-            "package-lock.json",
-            "yarn.lock",
-            "pnpm-lock.yaml",
-            "bun.lockb",
-            "bun.lock",
-        },
-        { ".git" },
+        "tsconfig.json",
+        "jsconfig.json",
+        "package.json",
     }
 
     local deno_root = vim.fs.root(bufnr, { "deno.json", "deno.jsonc" })
@@ -60,13 +55,17 @@ local function tsgo_root_dir(bufnr, on_dir)
         return
     end
 
-    on_dir(project_root or vim.fn.getcwd())
+    if project_root then
+        on_dir(project_root)
+    end
 end
 
 local function tsgo_cmd(dispatchers, config)
+    config = config or {}
+
     local cmd = "tsgo"
 
-    if (config or {}).root_dir then
+    if type(config.root_dir) == "string" then
         local local_cmd = vim.fs.joinpath(config.root_dir, "node_modules/.bin", cmd)
 
         if vim.fn.executable(local_cmd) == 1 then
@@ -74,7 +73,11 @@ local function tsgo_cmd(dispatchers, config)
         end
     end
 
-    return vim.lsp.rpc.start({ cmd, "--lsp", "--stdio" }, dispatchers)
+    return vim.lsp.rpc.start({ cmd, "--lsp", "--stdio" }, dispatchers, {
+        cwd = config.cmd_cwd,
+        env = config.cmd_env,
+        detached = config.detached,
+    })
 end
 
 return {
@@ -134,6 +137,10 @@ return {
 
             vim.lsp.config("tsgo", {
                 cmd = tsgo_cmd,
+                cmd_env = {
+                    GOGC = "50",
+                    GOMEMLIMIT = "768MiB",
+                },
                 filetypes = {
                     "javascript",
                     "javascriptreact",
@@ -145,22 +152,48 @@ return {
                 root_dir = tsgo_root_dir,
                 settings = {
                     typescript = {
+                        disableAutomaticTypeAcquisition = true,
                         inlayHints = {
                             parameterNames = {
-                                enabled = "literals",
+                                enabled = "none",
                                 suppressWhenArgumentMatchesName = true,
                             },
-                            parameterTypes = { enabled = true },
-                            variableTypes = { enabled = true },
-                            propertyDeclarationTypes = { enabled = true },
-                            functionLikeReturnTypes = { enabled = true },
-                            enumMemberValues = { enabled = true },
+                            parameterTypes = { enabled = false },
+                            variableTypes = { enabled = false },
+                            propertyDeclarationTypes = { enabled = false },
+                            functionLikeReturnTypes = { enabled = false },
+                            enumMemberValues = { enabled = false },
+                        },
+                        preferences = {
+                            includePackageJsonAutoImports = "off",
+                        },
+                        suggest = {
+                            autoImports = false,
+                            includeCompletionsForImportStatements = false,
+                        },
+                        workspaceSymbols = {
+                            excludeLibrarySymbols = true,
+                            scope = "currentProject",
                         },
                         format = {
                             insertSpaceBeforeFunctionParenthesis = true,
                         },
                     },
                     javascript = {
+                        inlayHints = {
+                            parameterNames = {
+                                enabled = "none",
+                                suppressWhenArgumentMatchesName = true,
+                            },
+                            parameterTypes = { enabled = false },
+                            variableTypes = { enabled = false },
+                            propertyDeclarationTypes = { enabled = false },
+                            functionLikeReturnTypes = { enabled = false },
+                        },
+                        suggest = {
+                            autoImports = false,
+                            includeCompletionsForImportStatements = false,
+                        },
                         format = {
                             insertSpaceBeforeFunctionParenthesis = true,
                         },
