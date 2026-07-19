@@ -147,3 +147,6 @@ export PATH='~/.duckdb/cli/latest':$PATH
 export PATH=$PATH:$(go env GOPATH)/bin
 
 export PATH="/Library/TeX/texbin:$PATH"
+
+# gcloud
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"

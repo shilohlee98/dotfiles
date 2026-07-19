@@ -16,11 +16,8 @@ palette = 3=#F4BF75
 palette = 4=#BAD7FF
 palette = 5=#AA749F
 palette = 6=#88AFA2
-
 palette = 7=#D0D0D0
-
 palette = 8=#727272
-
 palette = 9=#B46958
 palette = 10=#90A959
 palette = 11=#F4BF75
@@ -33,4 +30,5 @@ macos-option-as-alt = left
 font-feature = -liga,-clig,-dlig,-hlig,-calt,-csch,-kern
 # font-family = "FiraMono Nerd Font"
 font-family = "JetBrainsMonoNerdFontMono"
+font-codepoint-map = U+2E80-U+2FFF,U+3000-U+303F,U+3100-U+312F,U+3200-U+32FF,U+3400-U+4DBF,U+4E00-U+9FFF,U+F900-U+FAFF,U+FF00-U+FFEF=PingFang TC
 mouse-scroll-multiplier = 0.7
