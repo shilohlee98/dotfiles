@@ -5,6 +5,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.showmode = false
 vim.opt.cmdheight = 0
+vim.opt.shortmess:append("I")
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
     callback = function()

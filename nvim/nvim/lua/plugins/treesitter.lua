@@ -1,4 +1,11 @@
 local parser_install_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "treesitter-parsers")
+local markdown_lang_aliases = {
+    ex = "elixir",
+    pl = "perl",
+    sh = "bash",
+    ts = "typescript",
+    uxn = "uxntal",
+}
 
 return {
     {
@@ -6,7 +13,7 @@ return {
         event = "VeryLazy",
         build = ":TSUpdate",
         init = function()
-            vim.opt.runtimepath:prepend(parser_install_dir)
+            vim.opt.runtimepath:append(parser_install_dir)
         end,
         config = function()
             require("nvim-treesitter.configs").setup({
@@ -36,6 +43,27 @@ return {
                     enable = true,
                 },
             })
+
+            -- nvim-treesitter's legacy branch expects a single TSNode here,
+            -- while Neovim 0.12 passes a list of captured nodes.
+            if vim.fn.has("nvim-0.12") == 1 then
+                vim.treesitter.query.add_directive(
+                    "set-lang-from-info-string!",
+                    function(match, _, bufnr, pred, metadata)
+                        local node = match[pred[2]]
+                        node = type(node) == "table" and node[1] or node
+                        if not node then
+                            return
+                        end
+
+                        local alias = vim.treesitter.get_node_text(node, bufnr):lower()
+                        metadata["injection.language"] = vim.filetype.match({
+                            filename = "a." .. alias,
+                        }) or markdown_lang_aliases[alias] or alias
+                    end,
+                    { force = true, all = false }
+                )
+            end
         end,
     },
     {
