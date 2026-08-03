@@ -23,11 +23,11 @@ t5() {
     new-window -n b2 \; \
     new-window -n o  \; \
     new-window -n r  \; \
-    select-window -t f1 \; split-window -h \; split-window -v \; \
-    select-window -t b1 \; split-window -h \; split-window -v \; \
-    select-window -t b2 \; split-window -h \; split-window -v \; \
+    select-window -t f1 \; split-window -h \; \
+    select-window -t b1 \; split-window -h \; \
+    select-window -t b2 \; split-window -h \; \
+    select-window -t rss  \; split-window -h \; \
     select-window -t o  \; split-window -h \; \
-    select-window -t r  \; split-window -h \; \
     select-window -t f1
 }
 
