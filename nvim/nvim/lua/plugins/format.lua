@@ -14,6 +14,7 @@ return {
                     javascript = { "prettier" },
                     typescript = { "prettier" },
                     json = { "prettier" },
+                    go = { "goimports" },
                     -- sh = { "shfmt" },
                 },
             })

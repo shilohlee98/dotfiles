@@ -5,6 +5,8 @@ ZSH_THEME="robbyrussell"
 source $ZSH/oh-my-zsh.sh
 # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+# empty ctrl-D
+stty eof undef
 alias v='nvim'
 
 alias t='tmux'
@@ -21,8 +23,8 @@ t5() {
   tmux rename-window f1 \; \
     new-window -n b1 \; \
     new-window -n b2 \; \
+    new-window -n rss  \; \
     new-window -n o  \; \
-    new-window -n r  \; \
     select-window -t f1 \; split-window -h \; \
     select-window -t b1 \; split-window -h \; \
     select-window -t b2 \; split-window -h \; \
@@ -112,7 +114,6 @@ bindkey '^F' __fzf_git_status_file_insert
 zle -N __fzf_git_branch_insert
 bindkey '^G' __fzf_git_branch_insert
 
-
 alias y='yazi'
 
 alias cw='cd ~/workspace'
@@ -132,17 +133,20 @@ fi
 # python source with uv venv 
 alias psv="source .venv/bin/activate" 
 
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \
+  source "/opt/homebrew/opt/nvm/nvm.sh"
+
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \
+  source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
-export DOCKER_HOST=unix:///Users/shilohlee/.orbstack/run/docker.sock
+export DOCKER_HOST=unix:///Users/shiloh.lee/.orbstack/run/docker.sock
 
-export PATH='~/.duckdb/cli/latest':$PATH
 # GO Lsp
 export PATH=$PATH:$(go env GOPATH)/bin
 
@@ -150,3 +154,6 @@ export PATH="/Library/TeX/texbin:$PATH"
 
 # gcloud
 source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+export PATH="/opt/homebrew/opt/python@3.13/libexec/bin:$PATH"
+
+fpath=(/opt/homebrew/share/zsh/site-functions $fpath)

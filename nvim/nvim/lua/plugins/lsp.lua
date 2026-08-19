@@ -5,6 +5,7 @@ local mason_packages = {
     "lua-language-server",
     "tsgo",
     "gopls",
+    "goimports",
 }
 
 local function restart_lsp_for_open_buffers()
@@ -166,11 +167,11 @@ return {
                             enumMemberValues = { enabled = false },
                         },
                         preferences = {
-                            includePackageJsonAutoImports = "off",
+                            includePackageJsonAutoImports = "on",
                         },
                         suggest = {
-                            autoImports = false,
-                            includeCompletionsForImportStatements = false,
+                            autoImports = true,
+                            includeCompletionsForImportStatements = true,
                         },
                         workspaceSymbols = {
                             excludeLibrarySymbols = true,
@@ -192,8 +193,8 @@ return {
                             functionLikeReturnTypes = { enabled = false },
                         },
                         suggest = {
-                            autoImports = false,
-                            includeCompletionsForImportStatements = false,
+                            autoImports = true,
+                            includeCompletionsForImportStatements = true,
                         },
                         format = {
                             insertSpaceBeforeFunctionParenthesis = true,
