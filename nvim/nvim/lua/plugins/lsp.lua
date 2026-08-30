@@ -1,5 +1,48 @@
 local servers = { "pyright", "lua_ls", "tsgo", "gopls" }
 
+local hover_preview_configured = false
+
+local function configure_hover_preview()
+    if hover_preview_configured then
+        return
+    end
+
+    hover_preview_configured = true
+
+    local original_open_floating_preview = vim.lsp.util.open_floating_preview
+
+    vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
+        local bufnr, winid = original_open_floating_preview(contents, syntax, opts)
+
+        if
+            opts
+            and opts.focus_id == "textDocument/hover"
+            and vim.api.nvim_win_is_valid(winid)
+        then
+            vim.wo[winid].winhighlight =
+                "NormalFloat:LspHoverNormal,FloatBorder:LspHoverBorder"
+        end
+
+        return bufnr, winid
+    end
+
+    vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("lsp-hover-preview", { clear = true }),
+        callback = function(event)
+            vim.keymap.set("n", "K", function()
+                vim.lsp.buf.hover({
+                    border = "rounded",
+                    title = " Documentation ",
+                    title_pos = "center",
+                    max_width = math.min(80, vim.o.columns - 4),
+                    max_height = math.min(15, vim.o.lines - 4),
+                    anchor_bias = "above",
+                })
+            end, { buffer = event.buf, desc = "LSP Hover Documentation" })
+        end,
+    })
+end
+
 local mason_packages = {
     "pyright",
     "lua-language-server",
@@ -87,6 +130,7 @@ return {
         "williamboman/mason.nvim",
         event = "VeryLazy",
         config = function()
+            configure_hover_preview()
             require("mason").setup()
             ensure_mason_packages_installed(mason_packages)
 

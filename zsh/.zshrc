@@ -51,10 +51,19 @@ alias gpo='git push origin'
 alias gpl='git pull'
 alias gsw='git switch'
 alias gcp='git cherry-pick'
+alias vd='git difftool'
 alias lg='lazygit'
 
 gdnt() {
   git diff "$@" -- . ':(glob,exclude)**/*integration*' ':(glob,exclude)**/*test*'
+}
+
+vdnt() {
+  git difftool "$@" -- . \
+    ':(glob,exclude)**/*integration*' \
+    ':(glob,exclude)**/*test*' \
+    ':(glob,exclude)**/doc/**' \
+    ':(glob,exclude)**/docs/**'
 }
 
 alias kk='kubectl'

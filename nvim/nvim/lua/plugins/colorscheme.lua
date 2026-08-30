@@ -102,6 +102,8 @@ return {
                 NormalFloat = { fg = colors.fg, bg = black },
                 FloatBorder = { fg = colors.gray, bg = black },
                 FloatTitle = { fg = colors.blue, bg = black, bold = true },
+                LspHoverNormal = { fg = colors.fg, bg = colors.bg_alt },
+                LspHoverBorder = { fg = colors.blue, bg = colors.bg_alt },
                 Cursor = { fg = black, bg = colors.fg_alt },
                 CursorLine = { bg = black },
                 CursorLineNr = { fg = colors.yellow, bg = black, bold = true },
@@ -134,10 +136,15 @@ return {
                 GitSignsChange = { fg = colors.blue },
                 GitSignsDelete = { fg = colors.red },
                 GitSignsCurrentLineBlame = { fg = colors.gray },
-                DiffAdd = { fg = colors.green, bg = black },
-                DiffChange = { fg = colors.blue, bg = black },
-                DiffText = { fg = colors.blue, bg = colors.bg_alt, bold = true },
-                DiffDelete = { fg = colors.red, bg = black },
+                DiffAdd = { bg = "#142B22" },
+                DiffChange = { bg = "#172033" },
+                DiffText = { bg = "#264F78", bold = true },
+                DiffDelete = { bg = "#321C20" },
+                GitDiffOld = { bg = "#52242B" },
+                GitDiffOldText = { bg = "#8B3A44", bold = true },
+                GitDiffNew = { bg = "#1D4930" },
+                GitDiffNewText = { bg = "#2E7047", bold = true },
+                GitDiffFiller = { bg = black },
                 Pmenu = { fg = colors.fg, bg = black },
                 PmenuSel = { fg = colors.fg, bg = colors.selection },
                 PmenuSbar = { bg = black },
@@ -164,6 +171,77 @@ return {
                 SnacksPickerTotals = { fg = colors.gray, italic = true },
             }
             set_hl(picker_hl)
+
+            local function set_diff_winhighlight(winid, mappings)
+                local replaced = {}
+                for _, mapping in ipairs(mappings) do
+                    replaced[mapping[1]] = true
+                end
+
+                local entries = {}
+                for _, entry in ipairs(vim.split(vim.wo[winid].winhighlight, ",", {
+                    trimempty = true,
+                })) do
+                    local source = entry:match("^([^:]+):")
+                    if not replaced[source] then
+                        table.insert(entries, entry)
+                    end
+                end
+
+                for _, mapping in ipairs(mappings) do
+                    table.insert(entries, mapping[1] .. ":" .. mapping[2])
+                end
+                vim.wo[winid].winhighlight = table.concat(entries, ",")
+            end
+
+            local function apply_two_way_diff_settings()
+                if vim.fn.argc() ~= 2 then
+                    return
+                end
+
+                local diff_windows = vim.tbl_filter(function(winid)
+                    return vim.wo[winid].diff
+                end, vim.api.nvim_tabpage_list_wins(0))
+
+                if #diff_windows ~= 2 then
+                    return
+                end
+
+                for _, winid in ipairs(diff_windows) do
+                    vim.wo[winid].wrap = true
+                end
+
+                table.sort(diff_windows, function(left, right)
+                    local left_pos = vim.api.nvim_win_get_position(left)
+                    local right_pos = vim.api.nvim_win_get_position(right)
+                    if left_pos[2] ~= right_pos[2] then
+                        return left_pos[2] < right_pos[2]
+                    end
+                    return left_pos[1] < right_pos[1]
+                end)
+
+                set_diff_winhighlight(diff_windows[1], {
+                    { "DiffAdd", "GitDiffOld" },
+                    { "DiffChange", "GitDiffOld" },
+                    { "DiffText", "GitDiffOldText" },
+                    { "DiffDelete", "GitDiffFiller" },
+                })
+                set_diff_winhighlight(diff_windows[2], {
+                    { "DiffAdd", "GitDiffNew" },
+                    { "DiffChange", "GitDiffNew" },
+                    { "DiffText", "GitDiffNewText" },
+                    { "DiffDelete", "GitDiffFiller" },
+                })
+            end
+
+            local diff_highlight_group = vim.api.nvim_create_augroup(
+                "GitDifftoolHighlights",
+                { clear = true }
+            )
+            vim.api.nvim_create_autocmd("VimEnter", {
+                group = diff_highlight_group,
+                callback = apply_two_way_diff_settings,
+            })
         end,
     },
 }
