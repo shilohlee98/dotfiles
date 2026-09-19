@@ -12,6 +12,11 @@ end
 
 vim.g.mapleader = " "
 
+map("i", "<C-h>", "<Left>", { desc = "Move left" })
+map("i", "<C-j>", "<Down>", { desc = "Move down" })
+map("i", "<C-k>", "<Up>", { desc = "Move up" })
+map("i", "<C-l>", "<Right>", { desc = "Move right" })
+
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 map(
     { "n", "x" },
@@ -89,6 +94,9 @@ end, { expr = true, desc = "Scroll down 1/3 and center" })
 map("n", "<C-u>", function()
     return tostring(math.floor(vim.api.nvim_win_get_height(0) / 3)) .. "<C-u>zz"
 end, { expr = true, desc = "Scroll up 1/3 and center" })
+--
+map("n", "<C-o>", "<C-o>zz", { desc = "Jump back and center" })
+map("n", "<C-i>", "<C-i>zz", { desc = "Jump forward and center" })
 --
 map("n", "n", "nzzzv", {})
 map("n", "N", "Nzzzv", {})

@@ -3,6 +3,16 @@ return {
     opts = {
         image = { enabled = false },
         picker = {
+            win = {
+                input = {
+                    keys = {
+                        ["<C-h>"] = { "<Left>", mode = "i", expr = true },
+                        ["<C-j>"] = { "list_down", mode = { "i", "n" } },
+                        ["<C-k>"] = { "list_up", mode = { "i", "n" } },
+                        ["<C-l>"] = { "<Right>", mode = "i", expr = true },
+                    },
+                },
+            },
             layout = {
                 layout = {
                     backdrop = false,

@@ -49,6 +49,7 @@ local mason_packages = {
     "tsgo",
     "gopls",
     "goimports",
+    "delve",
 }
 
 local function restart_lsp_for_open_buffers()
