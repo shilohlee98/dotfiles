@@ -101,6 +101,14 @@ map("n", "<C-i>", "<C-i>zz", { desc = "Jump forward and center" })
 map("n", "n", "nzzzv", {})
 map("n", "N", "Nzzzv", {})
 
+map("n", "<leader>z", function()
+    if vim.wo.foldlevel == 0 then
+        vim.cmd.normal("zR")
+    else
+        vim.cmd.normal("zM")
+    end
+end, { desc = "Toggle all folds" })
+
 local function copy_and_notify(expr, label)
     local s = vim.fn.expand(expr)
     vim.fn.setreg("+", s)

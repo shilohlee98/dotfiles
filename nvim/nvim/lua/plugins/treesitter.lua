@@ -16,6 +16,14 @@ return {
             vim.opt.runtimepath:append(parser_install_dir)
         end,
         config = function()
+            -- The legacy nvim-treesitter installer still passes --no-bindings,
+            -- which was removed from tree-sitter CLI 0.25 and later.
+            require("nvim-treesitter.install").ts_generate_args = {
+                "generate",
+                "--abi",
+                tostring(vim.treesitter.language_version),
+            }
+
             require("nvim-treesitter.configs").setup({
                 parser_install_dir = parser_install_dir,
                 ensure_installed = {

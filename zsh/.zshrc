@@ -1,8 +1,15 @@
-export ZSH="$HOME/.oh-my-zsh"
+unset ZSH ZSH_THEME
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
 
-ZSH_THEME="robbyrussell"
-source $ZSH/oh-my-zsh.sh
+fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+autoload -Uz compinit
+compinit
+
+autoload -Uz vcs_info add-zsh-hook
+zstyle ':vcs_info:git:*' formats ' (%b)'
+add-zsh-hook precmd vcs_info
+setopt PROMPT_SUBST
+PROMPT='%1~${vcs_info_msg_0_}: '
 # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # empty ctrl-D
@@ -33,6 +40,12 @@ t5() {
     select-window -t f1
 }
 
+_ghostty_t5() {
+  local layout_default_directory="$PWD"
+  builtin cd /Users/shiloh.lee/appierwork/phoenix-frontend || return
+  osascript "$HOME/.config/ghostty/t5.applescript" "$layout_default_directory"
+}
+
 alias gl='git log'
 alias gl1='git log --oneline'
 alias gs='git status'
@@ -45,6 +58,8 @@ alias grs='git reset'
 alias grr='git restore'
 alias grb='git rebase'
 alias gd='git diff'
+alias gf='git fetch'
+alias gfu='git fetch upstream'
 alias gfo='git fetch origin'
 alias gp='git push'
 alias gpo='git push origin'
@@ -142,12 +157,20 @@ fi
 # python source with uv venv 
 alias psv="source .venv/bin/activate" 
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \
-  source "/opt/homebrew/opt/nvm/nvm.sh"
+_load_nvm() {
+  unfunction nvm 2>/dev/null
 
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \
-  source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] || return 1
+  source "/opt/homebrew/opt/nvm/nvm.sh" --no-use
+
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] &&
+    source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+}
+
+nvm() {
+  _load_nvm || return
+  nvm "$@"
+}
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="/opt/homebrew/bin:$PATH"
@@ -165,4 +188,6 @@ export PATH="/Library/TeX/texbin:$PATH"
 source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
 export PATH="/opt/homebrew/opt/python@3.13/libexec/bin:$PATH"
 
-fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
+  source "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration"
+fi

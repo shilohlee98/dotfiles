@@ -38,3 +38,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 vim.opt.grepprg = "rg --vimgrep --smart-case --hidden"
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.colorcolumn = "100"
+vim.opt.foldmethod = "indent"
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
