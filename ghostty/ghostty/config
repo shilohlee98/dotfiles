@@ -8,6 +8,9 @@ cursor-color = #D0D0D0
 selection-background = #373737
 selection-foreground = #E1E1E1
 
+split-divider-color = #727272
+unfocused-split-opacity = 0.6
+
 palette = 0=#202020
 
 palette = 1=#B46958
@@ -32,3 +35,31 @@ font-feature = -liga,-clig,-dlig,-hlig,-calt,-csch,-kern
 font-family = "JetBrainsMonoNerdFontMono"
 font-codepoint-map = U+2E80-U+2FFF,U+3000-U+303F,U+3100-U+312F,U+3200-U+32FF,U+3400-U+4DBF,U+4E00-U+9FFF,U+F900-U+FAFF,U+FF00-U+FFEF=PingFang TC
 mouse-scroll-multiplier = 0.7
+
+# tmux-like split and tab navigation.
+keybind = ctrl+b>v=new_split:right
+keybind = ctrl+b>shift+5=new_split:right
+keybind = ctrl+b>shift+apostrophe=new_split:down
+
+# Create the five-tab, two-split work layout from a shell prompt.
+keybind = ctrl+b>t=text:_ghostty_t5\x0d
+
+keybind = performable:alt+h=goto_split:left
+keybind = performable:alt+j=goto_split:down
+keybind = performable:alt+k=goto_split:up
+keybind = performable:alt+l=goto_split:right
+
+keybind = shift+arrow_left=resize_split:left,20
+keybind = shift+arrow_right=resize_split:right,20
+keybind = shift+arrow_down=resize_split:down,20
+keybind = shift+arrow_up=resize_split:up,20
+
+keybind = alt+digit_1=goto_tab:1
+keybind = alt+digit_2=goto_tab:2
+keybind = alt+digit_3=goto_tab:3
+keybind = alt+digit_4=goto_tab:4
+keybind = alt+digit_5=goto_tab:5
+keybind = alt+digit_6=goto_tab:6
+keybind = alt+digit_7=goto_tab:7
+keybind = alt+digit_8=goto_tab:8
+keybind = alt+digit_9=goto_tab:9
