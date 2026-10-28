@@ -1,3 +1,43 @@
+local function git_diff_filter(item, ctx)
+    if not ctx.picker.opts.hide_test_and_docs then
+        return
+    end
+
+    local file = (item.file or ""):lower():gsub("\\", "/")
+    local path = "/" .. file .. "/"
+    local name = vim.fs.basename(file)
+
+    if file:match("%.mdx?$") then
+        return false
+    end
+
+    local excluded_dirs = {
+        "test",
+        "tests",
+        "__tests__",
+        "integration",
+        "integration-tests",
+        "e2e",
+        "__e2e__",
+    }
+    for _, dir in ipairs(excluded_dirs) do
+        if path:find("/" .. dir .. "/", 1, true) then
+            return false
+        end
+    end
+
+    if
+        name:find("%.test%.")
+        or name:find("%.spec%.")
+        or name:find("%.integration%.")
+        or name:match("^test_.+%.py$")
+        or name:match(".+_test%.py$")
+        or name:match(".+_test%.go$")
+    then
+        return false
+    end
+end
+
 return {
     "folke/snacks.nvim",
     opts = {
@@ -35,6 +75,33 @@ return {
             },
             sources = {
                 files = { hidden = true },
+                git_diff = {
+                    hide_test_and_docs = false,
+                    toggles = {
+                        hide_test_and_docs = "t",
+                    },
+                    transform = git_diff_filter,
+                    win = {
+                        input = {
+                            keys = {
+                                ["<A-t>"] = {
+                                    "toggle_hide_test_and_docs",
+                                    mode = { "i", "n" },
+                                    desc = "Toggle tests, integration, and Markdown",
+                                },
+                            },
+                        },
+                        list = {
+                            keys = {
+                                ["<A-t>"] = {
+                                    "toggle_hide_test_and_docs",
+                                    mode = "n",
+                                    desc = "Toggle tests, integration, and Markdown",
+                                },
+                            },
+                        },
+                    },
+                },
             },
             formatters = {
                 file = {
