@@ -191,3 +191,34 @@ export PATH="/opt/homebrew/opt/python@3.13/libexec/bin:$PATH"
 if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
   source "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration"
 fi
+
+r5w() {
+  local default_dir="$PWD"
+  local frontend="/Users/shiloh.lee/appierwork/phoenix-frontend"
+  local backend="/Users/shiloh.lee/appierwork/phoenix-backend-all-in-one"
+  local pbe2="/Users/shiloh.lee/appierwork/pbe2"
+  local prometheus="/Users/shiloh.lee/workspace/prometheus"
+
+  builtin cd "$frontend" || return
+
+  rex split --split=right --cwd "$frontend" --focus=false >/dev/null || return
+
+  rex run --label b1 --cwd "$backend" --focus=false -- "$SHELL" -l >/dev/null || return
+  rex split -b b1 --split=right --cwd "$backend" --focus=false >/dev/null || return
+
+  rex run --label b2 --cwd "$pbe2" --focus=false -- "$SHELL" -l >/dev/null || return
+  rex split -b b2 --split=right --cwd "$pbe2" --focus=false >/dev/null || return
+
+  rex run --label rss --cwd "$default_dir" --focus=false -- "$SHELL" -l >/dev/null || return
+  rex split -b rss --split=right --cwd "$default_dir" --focus=false >/dev/null || return
+
+  rex run --label o --cwd "$default_dir" --focus=false -- "$SHELL" -l >/dev/null || return
+  rex split -b o --split=right --cwd "$default_dir" --focus=false >/dev/null || return
+
+  rex run --label prometheus --cwd "$prometheus" --focus=false -- "$SHELL" -l >/dev/null || return
+  rex split -b prometheus --split=right --cwd "$prometheus" --focus=false >/dev/null || return
+}
+
+if [ -n "$REX_BIN_DIR" ]; then
+  export PATH="$REX_BIN_DIR:$PATH"
+fi

@@ -1,6 +1,7 @@
 stow -t ~/.config -S nvim
 stow -t ~/.config -S yazi
 stow -t ~/.config -S ghostty
+stow -t ~/.config -S rex
 
 stow -t ~ zsh
 stow -t ~ tmux
